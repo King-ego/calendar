@@ -1,31 +1,24 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
 import { v4 as uuid } from 'uuid'
-// import Year from './Year'
 
-export default class UserCalendar extends BaseModel {
-  // @hasMany(() => Year)
-  // public years: HasMany<typeof Year>
-
+export default class Day extends BaseModel {
   @column({ isPrimary: true })
   public id: string
 
   @beforeCreate()
-  public static async createUUID(model: UserCalendar) {
+  public static async CreateUUID(model: Day) {
     model.id = uuid()
   }
 
   @column()
-  public name: string
+  public name: number
 
   @column()
-  public type: 'man' | 'woman'
+  public task: string
 
   @column()
-  public email: string
-
-  @column()
-  public password: string
+  public monthId: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

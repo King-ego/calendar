@@ -20,7 +20,10 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 Route.group(() => {
-  Route.resource('/login', 'UserCalendarsController').apiOnly()
+  Route.resource('/calendarUser', 'UserCalendarsController').apiOnly()
+  Route.resource('/calendarUser/:userId/year', 'YearsController').apiOnly()
+  Route.resource('/year/:yearId/month', 'MonthsController').apiOnly()
+  Route.resource('/month/:monthId/day', 'DaysController').apiOnly()
   Route.get('/', async () => {
     return { status: 'Completed' }
   })
