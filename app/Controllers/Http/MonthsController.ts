@@ -14,7 +14,7 @@ export default class MonthsController {
     const comment = await Month.create(body)
     response.status(201)
     return {
-      message: 'comentario criado com sucesso',
+      message: 'Mês criado com sucesso',
       data: comment,
     }
   }
