@@ -5,28 +5,30 @@ import Month from 'App/Models/Month'
 export default class MonthsController {
   public async store({ request, response, params }: HttpContextContract) {
     const body = request.body()
-    const momentId = params.yearId
+    const yearId = params.yearId
 
-    await Year.findOrFail(momentId)
+    await Year.findOrFail(yearId)
 
-    body.yearId = momentId
+    body.yearId = yearId
 
-    const comment = await Month.create(body)
+    const month = await Month.create(body)
     response.status(201)
     return {
       message: 'Mês criado com sucesso',
-      data: comment,
+      data: month,
     }
   }
 
   public async index({ params }: HttpContextContract) {
     let message = 'Não Encontrado'
 
-    const userId = params.yearId
+    const yearId = params.yearId
 
-    await Year.findOrFail(userId)
+    await Year.findOrFail(yearId)
 
-    const months = await Month.query()
+    const monthsAll = await Month.query()
+
+    const months = monthsAll.filter((e) => e.$attributes.yearId === yearId)
 
     if (months.length) {
       message = 'Encontrado'

@@ -5,11 +5,11 @@ import Year from 'App/Models/Year'
 export default class YearsController {
   public async store({ request, response, params }: HttpContextContract) {
     const body = request.body()
-    const momentId = params.userId
+    const userId = params.userId
 
-    await UserCalendar.findOrFail(momentId)
+    await UserCalendar.findOrFail(userId)
 
-    body.userId = momentId
+    body.userId = userId
 
     const comment = await Year.create(body)
     response.status(201)
@@ -26,7 +26,9 @@ export default class YearsController {
 
     await UserCalendar.findOrFail(userId)
 
-    const years = await Year.query()
+    const yearsAll = await Year.query()
+
+    const years = yearsAll.filter((e) => e.$attributes.userId === userId)
 
     if (years.length) {
       message = 'Sucesso'

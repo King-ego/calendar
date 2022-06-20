@@ -5,11 +5,11 @@ import Month from 'App/Models/Month'
 export default class DaysController {
   public async store({ request, response, params }: HttpContextContract) {
     const body = request.body()
-    const momentId = params.monthId
+    const monthId = params.monthId
 
-    await Month.findOrFail(momentId)
+    await Month.findOrFail(monthId)
 
-    body.monthId = momentId
+    body.monthId = monthId
 
     const comment = await Day.create(body)
     response.status(201)
@@ -29,11 +29,12 @@ export default class DaysController {
   public async index({ params }: HttpContextContract) {
     let message = 'Não Encontrado'
 
-    const userId = params.monthId
+    const monthId = params.monthId
 
-    await Month.findOrFail(userId)
+    await Month.findOrFail(monthId)
 
-    const days = await Day.query()
+    const allDays = await Day.query()
+    const days = allDays.filter((e) => e.$attributes.monthId === monthId)
 
     if (days.length) {
       message = 'Encontrado'
