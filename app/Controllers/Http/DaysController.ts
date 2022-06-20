@@ -18,6 +18,13 @@ export default class DaysController {
       data: comment,
     }
   }
+  public async show({ params }: HttpContextContract) {
+    const day = await Day.findOrFail(params.id)
+
+    return {
+      data: day,
+    }
+  }
 
   public async index({ params }: HttpContextContract) {
     let message = 'Não Encontrado'
@@ -35,6 +42,20 @@ export default class DaysController {
     return {
       message,
       days,
+    }
+  }
+
+  public async update({ params, request }: HttpContextContract) {
+    const days = await Day.findOrFail(params.id)
+    const body = request.body()
+
+    days.task = body.task
+
+    await days.save()
+
+    return {
+      message: 'task atualizado com sucesso',
+      data: days,
     }
   }
 }
